@@ -23,7 +23,7 @@ def read_item(item_id: int, q: Union[str, None] = None):
 
 @app.post("/cluster")
 def cluster(photos: Photos):
-    num_group = min(2, randrange(int(len(photos.photos)/2)))
+    num_group = max(2, randrange(int(len(photos.photos)/2)))
     groups = {}
 
     for i in range(num_group):
