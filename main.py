@@ -54,6 +54,14 @@ def assessment_quality(files: list[UploadFile]):
     return rank
 
 
+@app.post("/makeSticker")
+async def make_sticker(file: UploadFile, with_border=False):
+    temp_file_path = "temp.tmp"
+    with open(temp_file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    return FileResponse(temp_file_path)
+
+
 @app.get("/test")
 def test():
     return {"hello": "world"}
