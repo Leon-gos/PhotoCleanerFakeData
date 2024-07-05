@@ -65,3 +65,8 @@ async def make_sticker(file: UploadFile, with_border=False):
 @app.get("/test")
 def test():
     return {"hello": "world"}
+
+
+@app.get("/deeplink")
+def deeplink():
+    return {"hello": "world"}
