@@ -4,11 +4,13 @@ from typing import Union
 
 from fastapi import FastAPI, UploadFile
 from starlette.responses import FileResponse
+from starlette.staticfiles import StaticFiles
 
 from photo import Photos
 
 # run --> uvicorn main:app --host 0.0.0.0 --port 8000
 app = FastAPI()
+app.mount("/.well-known", StaticFiles(directory="./.well-known"), name="static")
 
 
 @app.get("/")
