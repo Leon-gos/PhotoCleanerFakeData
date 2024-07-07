@@ -91,7 +91,7 @@ def deeplink():
                     }, 50);
                     
                     // Attempt to open the app using the custom URL scheme
-                    window.location = "https://evolutionary-chiquita-leon-nguyen-b4118fcd/deeplink";
+                    window.location = "https://evolutionary-chiquita-leon-nguyen-b4118fcd.koyeb.app/deeplink";
                 }
             </script>
         </head>
