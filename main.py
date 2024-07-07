@@ -72,28 +72,28 @@ def test():
     return {"hello": "world"}
 
 
-@app.get("/deeplink")
-def deeplink():
-    html_content = """
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>Open App</title>
-            <script type="text/javascript">
-                function openApp() {
-                    var appWindow = 
-                        window.open("https://evolutionary-chiquita-leon-nguyen-b4118fcd.koyeb.app/deeplink","_blank");
-                    setTimeout( function () {
-                        if (appWindow) {
-                            appWindow.location ="https://play.google.com/store/apps/details?id=com.leon.photo_cleaner";
-                        }
-                    },1000);
-                }
-            </script>
-        </head>
-        <body onload="openApp()">
-            <p>Opening the app...</p>
-        </body>
-        </html>
-        """
-    return HTMLResponse(content=html_content)
+# @app.get("/deeplink")
+# def deeplink():
+#     html_content = """
+#         <!DOCTYPE html>
+#         <html>
+#         <head>
+#             <title>Open App</title>
+#             <script type="text/javascript">
+#                 function openApp() {
+#                     var appWindow =
+#                         window.open("https://evolutionary-chiquita-leon-nguyen-b4118fcd.koyeb.app/deeplink","_blank");
+#                     setTimeout( function () {
+#                         if (appWindow) {
+#                             appWindow.location ="https://play.google.com/store/apps/details?id=com.leon.photo_cleaner";
+#                         }
+#                     },1000);
+#                 }
+#             </script>
+#         </head>
+#         <body onload="openApp()">
+#             <p>Opening the app...</p>
+#         </body>
+#         </html>
+#         """
+#     return HTMLResponse(content=html_content)
