@@ -83,10 +83,15 @@ def deeplink():
                 function openApp() {
                     var now = new Date().valueOf();
                     setTimeout(function () {
-                        if (new Date().valueOf() - now > 100) return;
-                        window.location = "https://play.google.com/store/apps/details?id=com.leon.photo_cleaner";
+                        // Check if the app has opened or not after a delay
+                        if (new Date().valueOf() - now > 100) {
+                            // If app didn't open, redirect to the Google Play Store
+                            window.location = "https://play.google.com/store/apps/details?id=com.leon.photo_cleaner";
+                        }
                     }, 50);
-                    window.location = "https://evolutionary-chiquita-leon-nguyen-b4118fcd.koyeb.app/deeplink";
+                    
+                    // Attempt to open the app using the custom URL scheme
+                    window.location = "https://evolutionary-chiquita-leon-nguyen-b4118fcd/deeplink";
                 }
             </script>
         </head>
