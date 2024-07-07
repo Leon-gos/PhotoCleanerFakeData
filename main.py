@@ -3,10 +3,13 @@ from random import randrange
 from typing import Union
 
 from fastapi import FastAPI, UploadFile
-from starlette.responses import FileResponse
+from starlette.responses import FileResponse, HTMLResponse
 from starlette.staticfiles import StaticFiles
 
 from photo import Photos
+
+import http.server
+import socketserver
 
 # run --> uvicorn main:app --host 0.0.0.0 --port 8000
 app = FastAPI()
@@ -71,4 +74,25 @@ def test():
 
 @app.get("/deeplink")
 def deeplink():
-    return {"hello": "world"}
+    html_content = """
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Open App</title>
+            <script type="text/javascript">
+                function openApp() {
+                    var now = new Date().valueOf();
+                    setTimeout(function () {
+                        if (new Date().valueOf() - now > 100) return;
+                        window.location = "https://play.google.com/store/apps/details?id=com.leon.photo_cleaner";
+                    }, 50);
+                    window.location = "https://evolutionary-chiquita-leon-nguyen-b4118fcd.koyeb.app/deeplink";
+                }
+            </script>
+        </head>
+        <body onload="openApp()">
+            <p>Opening the app...</p>
+        </body>
+        </html>
+        """
+    return HTMLResponse(content=html_content)
