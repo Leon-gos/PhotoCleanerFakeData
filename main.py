@@ -72,60 +72,13 @@ def test():
     return {"hello": "world"}
 
 
-# @app.get("/deeplink")
-# def deeplink():
-#     html_content = """
-#         <!DOCTYPE html>
-#         <html>
-#         <head>
-#             <title>Open App</title>
-#             <script type="text/javascript">
-#                 function openApp() {
-#                     var appWindow =
-#                         window.open("https://evolutionary-chiquita-leon-nguyen-b4118fcd.koyeb.app/deeplink","_blank");
-#                     setTimeout( function () {
-#                         if (appWindow) {
-#                             appWindow.location ="https://play.google.com/store/apps/details?id=com.leon.photo_cleaner";
-#                         }
-#                     },1000);
-#                 }
-#             </script>
-#         </head>
-#         <body onload="openApp()">
-#             <p>Opening the app...</p>
-#         </body>
-#         </html>
-#         """
-#     return HTMLResponse(content=html_content)
-
-
-# @app.get("/{path:path}", response_class=HTMLResponse)
-# async def catch_all(path: str):
-#     # If the path matches the deep link pattern, return an HTML page that redirects to the app link
-#     if path.startswith("deeplink"):  # Replace "path" with your deep link path
-#         return HTMLResponse("""
-#             <!DOCTYPE html>
-#             <html>
-#             <head>
-#                 <title>Redirecting...</title>
-#                 <meta http-equiv="refresh" content="0; url=https://evolutionary-chiquita-leon-nguyen-b4118fcd.koyeb.app/deeplink">
-#             </head>
-#             <body>
-#                 <p>If you are not redirected, <a href="https://evolutionary-chiquita-leon-nguyen-b4118fcd.koyeb.app/deeplink">click here</a>.</p>
-#             </body>
-#             </html>
-#         """)
-#     else:
-#         return JSONResponse({"detail": "Not Found"}, status_code=404)
-
-
-@app.get("/{path:path}", response_class=HTMLResponse)
+@app.get("/deeplink/{path:path}", response_class=HTMLResponse)
 async def redirect_to_app_or_store(path: str, request: Request):
     user_agent = request.headers.get("user-agent", "").lower()
     is_android = "android" in user_agent
 
     # Replace with your actual URLs
-    android_app_url = (f"intent://evolutionary-chiquita-leon-nguyen-b4118fcd.koyeb.app/{path}#Intent;"
+    android_app_url = (f"intent://evolutionary-chiquita-leon-nguyen-b4118fcd.koyeb.app/deeplink/{path}#Intent;"
                        "scheme=https;"
                        "package=com.leon.photo_cleaner;"
                        "end")
