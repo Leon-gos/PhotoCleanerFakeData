@@ -2,7 +2,7 @@ import shutil
 from random import randrange
 from typing import Union
 
-from fastapi import FastAPI, UploadFile
+from fastapi import FastAPI, UploadFile, Request
 from starlette.responses import FileResponse, HTMLResponse, JSONResponse
 from starlette.staticfiles import StaticFiles
 
@@ -99,21 +99,68 @@ def test():
 #     return HTMLResponse(content=html_content)
 
 
+# @app.get("/{path:path}", response_class=HTMLResponse)
+# async def catch_all(path: str):
+#     # If the path matches the deep link pattern, return an HTML page that redirects to the app link
+#     if path.startswith("deeplink"):  # Replace "path" with your deep link path
+#         return HTMLResponse("""
+#             <!DOCTYPE html>
+#             <html>
+#             <head>
+#                 <title>Redirecting...</title>
+#                 <meta http-equiv="refresh" content="0; url=https://evolutionary-chiquita-leon-nguyen-b4118fcd.koyeb.app/deeplink">
+#             </head>
+#             <body>
+#                 <p>If you are not redirected, <a href="https://evolutionary-chiquita-leon-nguyen-b4118fcd.koyeb.app/deeplink">click here</a>.</p>
+#             </body>
+#             </html>
+#         """)
+#     else:
+#         return JSONResponse({"detail": "Not Found"}, status_code=404)
+
+
 @app.get("/{path:path}", response_class=HTMLResponse)
-async def catch_all(path: str):
-    # If the path matches the deep link pattern, return an HTML page that redirects to the app link
-    if path.startswith("deeplink"):  # Replace "path" with your deep link path
-        return HTMLResponse("""
-            <!DOCTYPE html>
+async def redirect_to_app_or_store(path: str, request: Request):
+    user_agent = request.headers.get("user-agent", "").lower()
+    is_android = "android" in user_agent
+
+    # Replace with your actual URLs
+    android_app_url = ("intent://evolutionary-chiquita-leon-nguyen-b4118fcd.koyeb.app/deeplink#Intent;"
+                       "scheme=https;"
+                       "package=com.leon.photo_cleaner;"
+                       "end")
+    android_store_url = "https://play.google.com/store/apps/details?id=com.leon.photo_cleaner"
+
+    if is_android:
+        print("android")
+        # Redirect to Android app or Play Store
+        return HTMLResponse(f"""
             <html>
             <head>
                 <title>Redirecting...</title>
-                <meta http-equiv="refresh" content="0; url=https://evolutionary-chiquita-leon-nguyen-b4118fcd.koyeb.app/deeplink">
+                <meta http-equiv="refresh" content="0; url={android_app_url}">
+                <script>
+                    setTimeout(function() {{
+                        window.location.href = "{android_store_url}";
+                    }}, 3000);
+                </script>
             </head>
             <body>
-                <p>If you are not redirected, <a href="https://evolutionary-chiquita-leon-nguyen-b4118fcd.koyeb.app/deeplink">click here</a>.</p>
+                <p>If you are not redirected, <a href="{android_store_url}">click here</a>.</p>
             </body>
             </html>
         """)
     else:
-        return JSONResponse({"detail": "Not Found"}, status_code=404)
+        print("default")
+        # Default fallback
+        return HTMLResponse(f"""
+            <html>
+            <head>
+                <title>Redirecting...</title>
+            </head>
+            <body>
+                <p>Unsupported device. Please use an Android or iOS device.</p>
+            </body>
+            </html>
+        """)
+
