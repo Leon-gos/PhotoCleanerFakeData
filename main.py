@@ -125,7 +125,7 @@ async def redirect_to_app_or_store(path: str, request: Request):
     is_android = "android" in user_agent
 
     # Replace with your actual URLs
-    android_app_url = ("intent://evolutionary-chiquita-leon-nguyen-b4118fcd.koyeb.app/deeplink#Intent;"
+    android_app_url = (f"intent://evolutionary-chiquita-leon-nguyen-b4118fcd.koyeb.app/{path}#Intent;"
                        "scheme=https;"
                        "package=com.leon.photo_cleaner;"
                        "end")
