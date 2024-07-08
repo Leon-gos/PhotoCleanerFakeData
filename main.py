@@ -3,7 +3,7 @@ from random import randrange
 from typing import Union
 
 from fastapi import FastAPI, UploadFile
-from starlette.responses import FileResponse, HTMLResponse
+from starlette.responses import FileResponse, HTMLResponse, JSONResponse
 from starlette.staticfiles import StaticFiles
 
 from photo import Photos
@@ -97,3 +97,23 @@ def test():
 #         </html>
 #         """
 #     return HTMLResponse(content=html_content)
+
+
+@app.get("/{path:path}", response_class=HTMLResponse)
+async def catch_all(path: str):
+    # If the path matches the deep link pattern, return an HTML page that redirects to the app link
+    if path.startswith("deeplink"):  # Replace "path" with your deep link path
+        return HTMLResponse("""
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Redirecting...</title>
+                <meta http-equiv="refresh" content="0; url=https://evolutionary-chiquita-leon-nguyen-b4118fcd.koyeb.app/deeplink">
+            </head>
+            <body>
+                <p>If you are not redirected, <a href="https://evolutionary-chiquita-leon-nguyen-b4118fcd.koyeb.app/deeplink">click here</a>.</p>
+            </body>
+            </html>
+        """)
+    else:
+        return JSONResponse({"detail": "Not Found"}, status_code=404)
