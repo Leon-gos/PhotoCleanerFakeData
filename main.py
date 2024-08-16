@@ -56,7 +56,10 @@ def assessment_quality(files: list[UploadFile]):
     rank = {}
     for i in range(len(files)):
         rank[files[i].filename] = i + 1
-    return rank
+    return {
+        "favorite": files[0].filename,
+        "rank": rank
+    }
 
 
 @app.post("/makeSticker")
